@@ -5,7 +5,7 @@ const windEl = document.getElementById('wind');
 const humidityEl = document.getElementById('humidity');
 const uvEl = document.getElementById('uv');
 const forecastEl = document.getElementById('forecast-container')
-//const uvColor = document.getElementsByClassName('uv-color')
+const uvColor = document.getElementsByClassName('uv-color')
 
 const key = '73353a06047094d8ea003b9b34501086';
 
@@ -30,6 +30,7 @@ function getForecast(lat, lon){
 
         displayCurrent(data.current)
         displayDaily(data.daily)
+        uvColorChange(data.current)
     })
 };
 
@@ -45,10 +46,22 @@ function displayCurrent(current){
     humidityEl.textContent = humidity
     uvEl.textContent = uvi
    
-    
+}
+
+function uvColorChange(current) {
+    let uvi = current.uvi
+
+    if (uvi <2) {
+        uvColor.setAttribute('class', 'btn btn-success');
+    } else if (uvi <6) {
+         uvColor.setAttribute('class', 'btn btn-warning');
+    } else if (uvi <11) {
+        uvColor.setAttribute('class','btn btn-danger')
+    }
+ 
 };
 
-
+   
 function displayDaily(daily){
     forecastEl.innerHTML = ''
  for (let index = 0; index < 5; index++) {
