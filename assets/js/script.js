@@ -5,14 +5,17 @@ const windEl = document.getElementById('wind');
 const humidityEl = document.getElementById('humidity');
 const uvEl = document.getElementById('uv');
 const forecastEl = document.getElementById('forecast-container')
+const historyEl = document.getElementById('history')
+const clearBtn = document.getElementById('clear-btn')
 const uvColor = document.getElementsByClassName('uv-color')
-
 const key = '73353a06047094d8ea003b9b34501086';
 
 
-function getCoordinates() {
+function getCoordinates(cityName) {
     console.log(cityEl.value)
-    var cityName = cityEl.value.trim()
+     if (!cityName) {
+         cityName = this.textContent
+     }
     fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=&appid=${key}`)
     .then(response => response.json())
     .then(data => { 
@@ -30,7 +33,8 @@ function getForecast(lat, lon){
 
         displayCurrent(data.current)
         displayDaily(data.daily)
-        uvColorChange(data.current)
+        
+        
     })
 };
 
@@ -45,21 +49,45 @@ function displayCurrent(current){
     windEl.textContent = wind
     humidityEl.textContent = humidity
     uvEl.textContent = uvi
-   
-}
-
-function uvColorChange(current) {
-    let uvi = current.uvi
 
     if (uvi <2) {
-        uvColor.setAttribute('class', 'btn btn-success');
+        uvEl.setAttribute('class', 'btn btn-success');
     } else if (uvi <6) {
-         uvColor.setAttribute('class', 'btn btn-warning');
+         uvEl.setAttribute('class', 'btn btn-warning');
     } else if (uvi <11) {
-        uvColor.setAttribute('class','btn btn-danger')
+        uvEl.setAttribute('class','btn btn-danger')
     }
- 
+}
+
+//function to use local storage to log search history
+
+function recentSearch() {
+    historyEl.innerHTML = '';
+   // window.localStorage.setItem('city', JSON.stringify(cityEl.value))
+    let search  = cityEl.value;
+    let history = JSON.parse(localStorage.getItem('history')) || [];
+    history.push(search);
+    localStorage.setItem('history', JSON.stringify(history));
+    history.forEach((city)=> {
+        let recentCityEl = document.createElement('button');
+        recentCityEl.setAttribute('class','historyBtn')
+        recentCityEl.textContent = city;
+        historyEl.append(recentCityEl)
+    }) 
+
 };
+
+function historyClick(e){
+if(!e.target.matches('.historyBtn')){
+    return;
+}
+var button = e.target
+var cityName = button.textContent
+getCoordinates(cityName)
+}
+
+// function to change button color to indicate uv levels
+
 
    
 function displayDaily(daily){
@@ -85,10 +113,37 @@ function displayDaily(daily){
     dailyDiv.append(dailyTemp)
     dailyDiv.append(dailyWind)
     dailyDiv.append(dailyHumidity)
-    
-
  }
 }
 
-searchBtn.addEventListener('click', getCoordinates);
+// checks local storage and displays it if clicked
+function checkHistory(){
+    let history = JSON.parse(localStorage.getItem('history')) || [];
+    history.forEach((city)=> {
+        let recentCityEl = document.createElement('button');
+        recentCityEl.setAttribute('class','historyBtn')
+        recentCityEl.textContent = city;
+        historyEl.append(recentCityEl)
+    }) 
+};
 
+//clears local history
+function clearHistory() {
+    localStorage.clear()
+};
+
+checkHistory()
+searchBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+    var cityName = cityEl.value.trim()
+    recentSearch()
+    getCoordinates(cityName)
+});
+
+historyEl.addEventListener('click', historyClick)
+clearBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+    clearHistory()
+    location.reload();
+    return false;
+});
