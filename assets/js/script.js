@@ -49,7 +49,7 @@ function displayCurrent(current){
     windEl.textContent = wind
     humidityEl.textContent = humidity
     uvEl.textContent = uvi
-
+    // if statement to change button color to indicate uv levels
     if (uvi <2) {
         uvEl.setAttribute('class', 'btn btn-success');
     } else if (uvi <6) {
@@ -86,7 +86,7 @@ var cityName = button.textContent
 getCoordinates(cityName)
 }
 
-// function to change button color to indicate uv levels
+
 
 
    
@@ -113,6 +113,9 @@ function displayDaily(daily){
     dailyDiv.append(dailyTemp)
     dailyDiv.append(dailyWind)
     dailyDiv.append(dailyHumidity)
+    dailyDiv.setAttribute('class', 'card')
+    
+
  }
 }
 
