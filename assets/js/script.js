@@ -16,7 +16,7 @@ function getCoordinates(cityName) {
      if (!cityName) {
          cityName = this.textContent
      }
-    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=&appid=${key}`)
+    fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=&appid=${key}`)
     .then(response => response.json())
     .then(data => { 
         let lat = data[0].lat
