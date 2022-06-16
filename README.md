@@ -1,12 +1,20 @@
-# weather-dashboard
-GIVEN a weather dashboard with form inputs
-WHEN I search for a city
-THEN I am presented with current and future conditions for that city and that city is added to the search history
-WHEN I view current weather conditions for that city
-THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
-WHEN I view the UV index
-THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
-WHEN I view future weather conditions for that city
-THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
-WHEN I click on a city in the search history
-THEN I am again presented with current and future conditions for that city
+# Weather Dashboard
+This is a server side API app that uses 'OpenWeather One Call API' to provide you with 
+current weather as well as a 5 day forecast. 
+
+## usage 
+Type a city into the search bar to get that cities current Temperature, Wind Speed, Humidity and UV index that is color coded.
+Along with the current weather you will be provided with a 5 day forecast. Your searches will be stored locally and displayed to you
+so you can click on them and re-view that city.
+
+## API 
+Here is a link to the API I used https://openweathermap.org/api/one-call-api
+
+## Website Screenshot
+<img src='assets/images/Screen Shot 2022-06-16 at 7.33.55 PM.png' alt='weather dahboard'>
+
+## Deployed website
+https://hogtown13.github.io/weather-dashboard/
+
+## GitHub 
+https://github.com/Hogtown13/weather-dashboard
